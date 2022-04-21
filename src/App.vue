@@ -1,21 +1,28 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import DraggableBox from "./components/DraggableBox.vue";
+import { useBoxStore } from "./store";
+
+const store = useBoxStore();
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+<!-- display Box's instant position  -->
+  <div class="text-center">
+    <span
+      class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
+      >X:{{ store.getCurrentPosition.x }} Y:{{
+        store.getCurrentPosition.y
+      }}</span
+    >
+  </div>
+<!-- DraggableBox component -->
+  <DraggableBox />
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100vw;
+  height: 100vh;
+  background: #1d252e;
 }
 </style>
