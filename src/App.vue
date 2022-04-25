@@ -6,16 +6,14 @@ const store = useBoxStore();
 </script>
 
 <template>
-<!-- display Box's instant position  -->
+  <!-- display Box's instant position  -->
   <div class="text-center">
     <span
       class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
-      >X:{{ store.getCurrentPosition.x }} Y:{{
-        store.getCurrentPosition.y
-      }}</span
-    >
+      >X:{{ store.getCurrentPosition.x }} Y:{{ store.getCurrentPosition.y }}
+    </span>
   </div>
-<!-- DraggableBox component -->
+  <!-- DraggableBox component -->
   <DraggableBox />
 </template>
 
