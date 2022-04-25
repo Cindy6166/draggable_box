@@ -1,6 +1,19 @@
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export type Position = { x: number; y: number };
+
+//* or using setup store syntax
+export const useStore = defineStore(
+  'main',
+  () => {
+    const someState = ref('hello pinia')
+    return { someState }
+  },
+  {
+    persist: true,
+  },
+)
 
 export const useBoxStore = defineStore("draggableBox", {
   state: () => ({
