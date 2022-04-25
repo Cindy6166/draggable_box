@@ -7,10 +7,9 @@ import { storeToRefs } from "pinia";
 // get position from store
 const store = useBoxStore();
 const { position } = storeToRefs(store);
-
 // VueUse useDraggable()
 const el = ref<HTMLElement | null>(null);
-const { x, y, style } = useDraggable(el, {
+const { style } = useDraggable(el, {
   initialValue: position,
   preventDefault: true,
 });
@@ -18,8 +17,8 @@ const { x, y, style } = useDraggable(el, {
 
 <template>
   <div
-    class="w-40 h-40 bg-clip-border bg-violet-600 border-4 border-violet-300 border-dashed cursor-pointer flex items-center justify-center"
     ref="el"
+    class="w-40 h-40 bg-clip-border bg-violet-600 border-4 border-violet-300 border-dashed cursor-pointer flex items-center justify-center"
     :style="style"
     style="position: fixed"
   >
