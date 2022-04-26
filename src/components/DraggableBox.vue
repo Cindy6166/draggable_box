@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useDraggable } from "@vueuse/core";
-import { useBoxStore } from "../store";
+import { useBoxStore } from "../store/draggableBox";
 import { storeToRefs } from "pinia";
 
 // get position from store
@@ -22,10 +22,9 @@ const { style } = useDraggable(el, {
     :style="style"
     style="position: fixed"
   >
-    <span class="text-rose-400 text-lg font-bold text-center"
-      >Drag me! <br />I am at <br />X:{{ store.getCurrentPosition.x }} Y:{{
-        store.getCurrentPosition.y
-      }}</span
-    >
+    <span class="text-rose-400 text-lg font-bold text-center">
+      Drag me! <br />I am at <br />
+      X:{{ store.getCurrentPosition.x }} Y:{{ store.getCurrentPosition.y }}
+    </span>
   </div>
 </template>
