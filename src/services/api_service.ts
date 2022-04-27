@@ -1,16 +1,17 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { useAuthStore } from "../store/authStore";
+import  {useAuthStore}  from "../store/authStore";
 
 const service = axios.create({
   baseURL: "http://localhost:3000/", // process.env.VUE_APP_API
   timeout: 10000,
 });
 
-const authStore = useAuthStore();
 
 // Request interceptors
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    const authStore = useAuthStore();
+
     if (!config?.headers) {
       throw new Error(
         `Expected 'config' and 'config.headers' not to be undefined`
