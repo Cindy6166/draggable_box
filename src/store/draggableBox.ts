@@ -4,7 +4,7 @@ export type Position = { x: number; y: number };
 
 export const useBoxStore = defineStore("draggableBox", {
   state: () => ({
-    position: { x: 40, y: 40 } as Position,
+    position: { x: 50, y: 150 } as Position,
   }),
   getters: {
     getCurrentPosition(): Position {
