@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useBoxStore } from "../store/draggableBox";
-import {useAuthStore}  from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 import router from "../router";
 
 const boxStore = useBoxStore();
 
-async function onLogOut() {
-  await useAuthStore().LogOut()
-  router.replace('/login')
+async function onLogout() {
+  await useAuthStore().Logout();
+  router.replace("/login");
 }
 </script>
 
@@ -17,7 +17,12 @@ async function onLogOut() {
       class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-violet-500"
       >Welcome to {{ $route.name }} page!</span
     >
-    <button class="bg-sky-400 text-white rounded-full px-3 py-1 fixed right-0 hover:bg-sky-800 m-2" @click="onLogOut">Log Out</button>
+    <button
+      class="bg-sky-400 text-white rounded-full px-3 py-1 fixed right-0 hover:bg-sky-800 m-2"
+      @click="onLogout"
+    >
+      Logout
+    </button>
   </div>
   <nav v-if="$route.name !== 'login'" class="flex justify-center">
     <router-link
@@ -36,7 +41,9 @@ async function onLogOut() {
   <div v-if="$route.path === '/draggableBox'" class="text-center">
     <span
       class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
-      >X:{{ boxStore.getCurrentPosition.x }} Y:{{ boxStore.getCurrentPosition.y }}
+      >X:{{ boxStore.getCurrentPosition.x }} Y:{{
+        boxStore.getCurrentPosition.y
+      }}
     </span>
   </div>
 </template>

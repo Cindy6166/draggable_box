@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import router from "../router";
-import {useAuthStore}  from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 
 const userInfo = reactive({ username: "", password: "" });
 async function onLogin(userInfo: Object) {
-  console.log(userInfo);
-  await useAuthStore().Login(userInfo)
-  router.push('/')
-} 
+  await useAuthStore().Login(userInfo);
+  router.push("/");
+}
 </script>
 
 <template>

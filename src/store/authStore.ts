@@ -1,25 +1,23 @@
-import { defineStore } from 'pinia'
-import { login, logout } from '../services/auth_service'
-import { getToken, setToken, removeToken } from '../services/token_service'
+import { defineStore } from "pinia";
+import { login } from "../services/auth_service";
+import { getToken, setToken, removeToken } from "../services/token_service";
 
-export const useAuthStore = defineStore("auth",{
+export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: getToken() || '' ,
-    username: '',
-    password: ''
+    token: getToken() || "",
+    username: "",
+    password: "",
+    isLogin: !!getToken(),
   }),
   actions: {
-    async Login(userInfo: { username: string, password: string }) {
-      const { username, password } = userInfo
-      const { data } = await login({ username, password })
-      setToken(data.accessToken)
+    async Login(userInfo: {}) {
+      const { data } = await login(userInfo);
+      setToken(data.token);
+      this.isLogin = true;
     },
-    async LogOut() {
-      if (this.token === ''){
-        throw Error('LogOut: token is undefined!')
-      }
-      await logout()
-      removeToken()
-    }
-  }
-})
+    async Logout() {
+      removeToken();
+      this.$reset();
+    },
+  },
+});

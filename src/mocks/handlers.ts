@@ -1,34 +1,27 @@
 import { rest } from "msw";
 
-
 export const handlers = [
   // Handles a POST /login request
-  rest.post('/login', (req, res, ctx) => {
-    sessionStorage.setItem('is-authenticated', 'true')
-    return res(
-      // Respond with a 200 status code
-      ctx.status(200),
-      )
-  }),
-  // Handles a GET /user request
-  rest.get('/user', (req, res, ctx) => {
-    // Check if the user is authenticated in this session
-    const isAuthenticated = sessionStorage.getItem('is-authenticated')
-    if (!isAuthenticated) {
-      // If not authenticated, respond with a 403 error
+  rest.post("/login", (req, res, ctx) => {
+    const userInfo: any = req.body;
+    const { username, password } = userInfo;
+    if (username === "John" && password === "1111") {
       return res(
-        ctx.status(403),
+        ctx.status(200),
+        ctx.set({ Authorization: "Bearer ohmytoken" }),
         ctx.json({
-          errorMessage: 'Not authorized',
-        }),
-      )
+          code: 200,
+          msg: "成功",
+          token: "Bearer ohmytoken",
+        })
+      );
     }
-    // If authenticated, return a mocked user details
     return res(
       ctx.status(200),
       ctx.json({
-        username: 'admin',
-      }),
-    )
+        code: 30001,
+        msg: "帳號不存在或密碼錯誤，請重新輸入。",
+      })
+    );
   }),
 ];
