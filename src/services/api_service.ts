@@ -35,7 +35,7 @@ service.interceptors.response.use(
       case 200:
         return Promise.resolve(response);
       case 30001:
-        return Promise.reject(new Error(response.data.msg));
+        return Promise.reject(response.data.msg);
       default:
         break;
     }

@@ -1,16 +1,32 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import router from "../router";
 import { useAuthStore } from "../store/authStore";
+import Modal from "./Modal.vue";
 
 const userInfo = reactive({ username: "", password: "" });
+const errMsg = ref("");
+const isError = ref(false);
 async function onLogin(userInfo: Object) {
-  await useAuthStore().Login(userInfo);
+  await useAuthStore()
+    .Login(userInfo)
+    .catch((err) => {
+      isError.value = true;
+      errMsg.value = err;
+    });
   router.push("/");
+}
+function onClose() {
+  isError.value = false;
+  userInfo.username = ''
+  userInfo.password = ''
 }
 </script>
 
 <template>
+  <teleport v-if="isError" to="body">
+    <Modal :msg="errMsg" @close="onClose" />
+  </teleport>
   <section class="absolute w-full h-full">
     <div
       class="absolute top-0 w-full h-full bg-gray-900"
@@ -56,6 +72,7 @@ async function onLogin(userInfo: Object) {
                     class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                     placeholder="Password"
                     style="transition: all 0.15s ease 0s"
+                    @keyup.enter="onLogin(userInfo)"
                   />
                 </div>
                 <div class="text-center mt-6">
