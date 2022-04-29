@@ -3,30 +3,34 @@ import { reactive, ref } from "vue";
 import router from "../router";
 import { useAuthStore } from "../store/authStore";
 import Modal from "./Modal.vue";
+import Spinner from "./Spinner.vue";
 
 const userInfo = reactive({ username: "", password: "" });
-const errMsg = ref("");
-const isError = ref(false);
+const errorModal = reactive({
+  msg: "",
+  showModal: false,
+});
+const isLoading = ref(false);
 async function onLogin(userInfo: Object) {
+  isLoading.value = true;
   await useAuthStore()
     .Login(userInfo)
     .catch((err) => {
-      isError.value = true;
-      errMsg.value = err;
+      errorModal.msg = err;
+      errorModal.showModal = true;
     });
   router.push("/");
 }
 function onClose() {
-  isError.value = false;
-  userInfo.username = ''
-  userInfo.password = ''
+  errorModal.showModal = false;
+  isLoading.value = false;
+  userInfo.username = "";
+  userInfo.password = "";
 }
 </script>
 
 <template>
-  <teleport v-if="isError" to="body">
-    <Modal :msg="errMsg" @close="onClose" />
-  </teleport>
+  <Modal :set-modal="errorModal" @close="onClose" />
   <section class="absolute w-full h-full">
     <div
       class="absolute top-0 w-full h-full bg-gray-900"
@@ -77,12 +81,13 @@ function onClose() {
                 </div>
                 <div class="text-center mt-6">
                   <button
-                    class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                    class="flex justify-center items-center bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
                     type="button"
                     style="transition: all 0.15s ease 0s"
                     @click.prevent="onLogin(userInfo)"
                   >
-                    Login
+                    <Spinner :is-loading="isLoading" />
+                    <span>Login</span>
                   </button>
                 </div>
               </form>
