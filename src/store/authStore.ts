@@ -1,22 +1,23 @@
 import { defineStore } from "pinia";
 import { login } from "../services/auth_service";
-import { getToken, setToken, removeToken } from "../services/token_service";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: getToken() || "",
+    token: "",
     username: "",
     password: "",
-    isLogin: !!getToken(),
   }),
+  // use pinia-plugin-persistedstate to store token in localStorage
+  persist: {
+    key: "token",
+    paths: ["token"],
+  },
   actions: {
     async Login(userInfo: {}) {
       const { data } = await login(userInfo);
-      setToken(data.token);
-      this.isLogin = true;
+      this.token = data.token;
     },
     async Logout() {
-      removeToken();
       this.$reset();
     },
   },

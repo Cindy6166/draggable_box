@@ -29,7 +29,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(useAuthStore().isLogin === false && to.path !== '/login') next('/login');
+  if(!useAuthStore().token && to.path !== '/login') next('/login');
   else next();
 })
 
