@@ -7,7 +7,9 @@ import { worker } from "./mocks/browser";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 if (process.env.NODE_ENV === "development") {
-  worker.start();
+  worker.start({
+    onUnhandledRequest: "bypass", // Performs an unhandled request as-is.
+  });
 }
 
 const pinia = createPinia();

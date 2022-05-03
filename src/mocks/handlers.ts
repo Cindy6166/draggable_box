@@ -12,7 +12,6 @@ export const handlers = [
         ctx.json({
           code: 200,
           msg: "成功",
-          token: "Bearer ohmytoken",
         })
       );
     }
