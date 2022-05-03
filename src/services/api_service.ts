@@ -30,8 +30,11 @@ service.interceptors.request.use(
 // Response interceptors
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    const res = response.data;
-    switch (res.code) {
+    const authStore = useAuthStore();
+    if (response.headers.authorization) {
+      authStore.token = response.headers.authorization.split(" ")[1];
+    }
+    switch (response.data.code) {
       case 200:
         return Promise.resolve(response);
       case 30001:

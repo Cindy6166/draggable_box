@@ -14,8 +14,7 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async Login(userInfo: {}) {
-      const { data } = await login(userInfo);
-      this.token = data.token;
+      await login(userInfo);
     },
     async Logout() {
       this.$reset();

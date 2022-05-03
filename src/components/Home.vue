@@ -11,11 +11,11 @@ const logoutModal = reactive({
   showModal: false,
 });
 
-async function onLogout() {
+const onLogout = async () => {
   await useAuthStore().Logout();
   router.replace("/login");
-}
-const showModal = function () {
+};
+const showModal = () => {
   logoutModal.showModal = true;
 };
 </script>

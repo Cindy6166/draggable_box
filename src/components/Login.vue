@@ -11,31 +11,29 @@ const errorModal = reactive({
   showModal: false,
 });
 const isLoading = ref(false);
-async function onLogin(userInfo: Object) {
+const onLogin = async (userInfo: Object) => {
   isLoading.value = true;
-  await useAuthStore()
-    .Login(userInfo)
-    .catch((err) => {
-      errorModal.msg = err;
-      errorModal.showModal = true;
-    });
+  try {
+    await useAuthStore().Login(userInfo);
+  } catch (err: any) {
+    errorModal.msg = err;
+    errorModal.showModal = true;
+  }
   router.push("/");
-}
-function onClose() {
+};
+const onClose = () => {
   errorModal.showModal = false;
   isLoading.value = false;
   userInfo.username = "";
   userInfo.password = "";
-}
+};
 </script>
 
 <template>
   <Modal :set-modal="errorModal" @close="onClose" />
   <section class="absolute w-full h-full">
     <div
-      class="absolute top-0 w-full h-full bg-gray-900"
-      style="background-size: 100%; background-repeat: no-repeat"
-      :style="{ 'background-image': 'url(src/assets/img/register_bg_2.png )' }"
+      class="absolute top-0 w-full h-full bg-gray-900 bg-cover bg-no-repeat bg-[url('src/assets/img/register_bg_2.png')]"
     ></div>
     <div class="container mx-auto px-4 h-full">
       <div class="flex content-center items-center justify-center h-full">
@@ -62,7 +60,6 @@ function onClose() {
                     type="text"
                     class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                     placeholder="Username"
-                    style="transition: all 0.15s ease 0s"
                   />
                 </div>
                 <div class="relative w-full mb-3">
@@ -75,15 +72,13 @@ function onClose() {
                     type="password"
                     class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                     placeholder="Password"
-                    style="transition: all 0.15s ease 0s"
                     @keyup.enter="onLogin(userInfo)"
                   />
                 </div>
                 <div class="text-center mt-6">
                   <button
-                    class="flex justify-center items-center bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
+                    class="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-cyan-500 duration-300 flex justify-center items-center bg-gray-900 text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
                     type="button"
-                    style="transition: all 0.15s ease 0s"
                     @click.prevent="onLogin(userInfo)"
                   >
                     <Spinner :is-loading="isLoading" />
